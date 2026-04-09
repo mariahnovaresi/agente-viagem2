@@ -16,14 +16,12 @@ export interface Cliente {
   ativo: boolean;
 }
 
+// Busca via função segura — nunca expõe a tabela inteira
 export async function buscarCliente(codigo: string): Promise<Cliente | null> {
   const codigoLimpo = codigo.toUpperCase().trim();
 
   const { data, error } = await supabase
-    .from('clientes')
-    .select('*')
-    .ilike('codigo', codigoLimpo)
-    .limit(1);
+    .rpc('buscar_cliente_por_codigo', { p_codigo: codigoLimpo });
 
   if (error) {
     console.error('Erro ao buscar cliente:', error);
@@ -31,7 +29,6 @@ export async function buscarCliente(codigo: string): Promise<Cliente | null> {
   }
 
   if (!data || data.length === 0) {
-    console.log('Nenhum cliente encontrado para o código:', codigoLimpo);
     return null;
   }
 
@@ -73,7 +70,7 @@ export async function verificarCota(codigo: string): Promise<{
   if (cliente.consultas_usadas >= cliente.limite) {
     return {
       permitido: false,
-      mensagem: `❌ Você atingiu o limite de ${cliente.limite} consultas do seu plano ${cliente.plano}. Entre em contato para fazer upgrade! 🚀`,
+      mensagem: `❌ Você atingiu o limite de ${cliente.limite} consultas do plano ${cliente.plano}. Entre em contato para fazer upgrade! 🚀`,
       cliente,
     };
   }
@@ -85,12 +82,12 @@ export async function verificarCota(codigo: string): Promise<{
   };
 }
 
+// Registra consulta via função segura
 export async function registrarConsulta(codigo: string): Promise<void> {
-  const cliente = await buscarCliente(codigo);
-  if (!cliente) return;
+  const { error } = await supabase
+    .rpc('registrar_consulta', { p_codigo: codigo.toUpperCase().trim() });
 
-  await supabase
-    .from('clientes')
-    .update({ consultas_usadas: cliente.consultas_usadas + 1 })
-    .ilike('codigo', codigo.toUpperCase().trim());
+  if (error) {
+    console.error('Erro ao registrar consulta:', error);
+  }
 }
