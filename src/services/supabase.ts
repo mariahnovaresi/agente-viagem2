@@ -16,19 +16,28 @@ export interface Cliente {
   ativo: boolean;
 }
 
-// Busca o cliente pelo código que ele digitou
 export async function buscarCliente(codigo: string): Promise<Cliente | null> {
+  const codigoLimpo = codigo.toUpperCase().trim();
+
   const { data, error } = await supabase
     .from('clientes')
     .select('*')
-    .eq('codigo', codigo.toUpperCase().trim())
-    .single();
+    .ilike('codigo', codigoLimpo)
+    .limit(1);
 
-  if (error || !data) return null;
-  return data as Cliente;
+  if (error) {
+    console.error('Erro ao buscar cliente:', error);
+    return null;
+  }
+
+  if (!data || data.length === 0) {
+    console.log('Nenhum cliente encontrado para o código:', codigoLimpo);
+    return null;
+  }
+
+  return data[0] as Cliente;
 }
 
-// Verifica se o cliente pode fazer mais consultas
 export async function verificarCota(codigo: string): Promise<{
   permitido: boolean;
   mensagem: string;
@@ -76,7 +85,6 @@ export async function verificarCota(codigo: string): Promise<{
   };
 }
 
-// Registra uma consulta usada
 export async function registrarConsulta(codigo: string): Promise<void> {
   const cliente = await buscarCliente(codigo);
   if (!cliente) return;
@@ -84,5 +92,5 @@ export async function registrarConsulta(codigo: string): Promise<void> {
   await supabase
     .from('clientes')
     .update({ consultas_usadas: cliente.consultas_usadas + 1 })
-    .eq('codigo', codigo.toUpperCase().trim());
+    .ilike('codigo', codigo.toUpperCase().trim());
 }
