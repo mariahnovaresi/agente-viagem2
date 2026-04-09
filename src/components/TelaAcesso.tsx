@@ -10,7 +10,6 @@ const planos = [
   {
     nome: 'Viajante Básico',
     consultas: '10 consultas/mês',
-    limite: 10,
     precoMensal: 'R$ 9,90',
     precoAnual: 'R$ 99,90',
     destaque: false,
@@ -19,7 +18,6 @@ const planos = [
   {
     nome: 'Viajante Intermediário',
     consultas: '30 consultas/mês',
-    limite: 30,
     precoMensal: 'R$ 29,90',
     precoAnual: 'R$ 299,90',
     destaque: true,
@@ -28,7 +26,6 @@ const planos = [
   {
     nome: 'Viajante Frequente',
     consultas: '150 consultas/mês',
-    limite: 150,
     precoMensal: 'R$ 99,90',
     precoAnual: 'R$ 999,90',
     destaque: false,
@@ -83,7 +80,7 @@ export default function TelaAcesso({ onAcessoLiberado }: TelaAcessoProps) {
           <Plane size={32} color="white" />
         </div>
         <h1 style={{ color: 'white', fontSize: '26px', fontWeight: '700', margin: '0 0 8px' }}>
-          Agente de Viagens IA ✈️
+          FlightScan - Agente de Viagem ✈️
         </h1>
         <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '15px', margin: 0 }}>
           Encontre as melhores passagens em milhas ou dinheiro
@@ -193,7 +190,7 @@ export default function TelaAcesso({ onAcessoLiberado }: TelaAcessoProps) {
         </button>
       </div>
 
-      {/* Cards dos planos */}
+      {/* Cards dos planos — sem botão individual */}
       <div style={{
         display: 'flex', flexDirection: 'column', gap: '16px',
         width: '100%', maxWidth: '400px',
@@ -213,7 +210,6 @@ export default function TelaAcesso({ onAcessoLiberado }: TelaAcessoProps) {
               position: 'relative',
             }}
           >
-            {/* Badge mais popular */}
             {plano.destaque && (
               <div style={{
                 position: 'absolute', top: '-12px', left: '50%',
@@ -227,7 +223,7 @@ export default function TelaAcesso({ onAcessoLiberado }: TelaAcessoProps) {
               </div>
             )}
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
                 <p style={{ color: 'white', fontWeight: '700', fontSize: '16px', margin: '0 0 4px' }}>
                   {plano.emoji} {plano.nome}
@@ -245,28 +241,31 @@ export default function TelaAcesso({ onAcessoLiberado }: TelaAcessoProps) {
                 </p>
               </div>
             </div>
-
-            <a
-                       </div>
+          </div>
         ))}
       </div>
-href="https://wa.me/5548988311209?text=Quero+assinar+um+plano"
-  target="_blank"
-  rel="noopener noreferrer"
-  style={{
-    display: 'block', textAlign: 'center',
-    padding: '14px', borderRadius: '12px',
-    background: '#25d366',
-    color: 'white', textDecoration: 'none',
-    fontSize: '15px', fontWeight: '600',
-    width: '100%', maxWidth: '400px',
-    marginTop: '8px',
-  }}
->
-  💬 Assinar pelo WhatsApp
-</a>
-      <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '12px', marginTop: '32px', textAlign: 'center' }}>
-        Após o pagamento você recebe seu código de acesso pelo WhatsApp em até 24h.
+
+      {/* Botão único de WhatsApp */}
+      <a
+        href="https://wa.me/5548988311209?text=Quero+assinar+um+plano+do+FlightScan"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          display: 'block', textAlign: 'center',
+          padding: '15px', borderRadius: '12px',
+          background: '#25d366',
+          color: 'white', textDecoration: 'none',
+          fontSize: '15px', fontWeight: '700',
+          width: '100%', maxWidth: '400px',
+          marginTop: '24px',
+          boxSizing: 'border-box',
+        }}
+      >
+        💬 Assinar pelo WhatsApp
+      </a>
+
+      <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '12px', marginTop: '16px', textAlign: 'center' }}>
+        Após o pagamento você recebe seu código de acesso em até 24h.
       </p>
     </div>
   );
