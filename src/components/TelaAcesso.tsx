@@ -247,23 +247,24 @@ export default function TelaAcesso({ onAcessoLiberado }: TelaAcessoProps) {
             </div>
 
             <a
-              href={`https://wa.me/5548988311209?text=Quero+assinar+${encodeURIComponent(plano.nome)}+${anual ? 'Anual' : 'Mensal'}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: 'block', textAlign: 'center',
-                padding: '11px', borderRadius: '10px', border: 'none',
-                background: '#25d366',
-                color: 'white', textDecoration: 'none',
-                fontSize: '14px', fontWeight: '600',
-              }}
-            >
-              💬 Assinar pelo WhatsApp
-            </a>
-          </div>
+                       </div>
         ))}
       </div>
-
+href="https://wa.me/5548988311209?text=Quero+assinar+um+plano"
+  target="_blank"
+  rel="noopener noreferrer"
+  style={{
+    display: 'block', textAlign: 'center',
+    padding: '14px', borderRadius: '12px',
+    background: '#25d366',
+    color: 'white', textDecoration: 'none',
+    fontSize: '15px', fontWeight: '600',
+    width: '100%', maxWidth: '400px',
+    marginTop: '8px',
+  }}
+>
+  💬 Assinar pelo WhatsApp
+</a>
       <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '12px', marginTop: '32px', textAlign: 'center' }}>
         Após o pagamento você recebe seu código de acesso pelo WhatsApp em até 24h.
       </p>
