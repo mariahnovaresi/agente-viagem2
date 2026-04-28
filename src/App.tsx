@@ -264,12 +264,11 @@ export default function App({ onNovaConsulta, consultasRestantes = 999 }: AppPro
     if (selectedMonths.length === 0) return;
     const labels = selectedMonths.map(m => MONTHS.find(x => x.value === m)?.label).join(', ');
     addMessage(labels, 'user');
-    const year = new Date().getFullYear();
-    // Build a search with month-based flexible dates
+    // Pass only flexMonths — do NOT set departureDate/returnDate to avoid confusing the model
     const newData = {
       ...searchData,
-      departureDate: `01/${selectedMonths[0]}`,
-      returnDate: `28/${selectedMonths[selectedMonths.length - 1]}`,
+      departureDate: undefined,
+      returnDate: undefined,
       flexMonths: selectedMonths,
     } as any;
     setSearchData(newData);
